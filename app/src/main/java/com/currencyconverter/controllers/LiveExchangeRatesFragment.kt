@@ -5,11 +5,14 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.currencyconverter.R
 import com.currencyconverter.models.ExchangeRate
+import com.currencyconverter.models.SharedViewModel
 import com.currencyconverter.services.ExchangeRatesService
+import com.currencyconverter.views.ExchangeRatesAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +25,11 @@ class LiveExchangeRatesFragment : Fragment(R.layout.fragment_exchange) {
     private lateinit var tvErrorMessage: TextView
     private var apiKey = "a091355d2a6669db830a927278590768"
 
-    private val localExchangeRates = mutableListOf<ExchangeRate>()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    companion object {
+        val localExchangeRates = mutableListOf<ExchangeRate>()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,7 +59,7 @@ class LiveExchangeRatesFragment : Fragment(R.layout.fragment_exchange) {
                     val rates = response.body()?.rates
                     if (rates != null) {
                         val ratesList = cloneRates(rates)
-                        displayRates(ratesList)
+                        displayRates(localExchangeRates)
                         updateLocalRates(ratesList)
                     } else {
                         showError("No rates available.")
@@ -78,6 +85,7 @@ class LiveExchangeRatesFragment : Fragment(R.layout.fragment_exchange) {
     }
 
     private fun displayRates(rates: List<ExchangeRate>) {
+        sharedViewModel.exchangeRates.value = rates
         progressBar.visibility = View.GONE
         tvErrorMessage.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE

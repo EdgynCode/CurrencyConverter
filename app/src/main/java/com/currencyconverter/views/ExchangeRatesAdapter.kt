@@ -1,4 +1,4 @@
-package com.currencyconverter.controllers
+package com.currencyconverter.views
 
 import android.view.LayoutInflater
 import android.view.View
