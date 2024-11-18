@@ -9,6 +9,18 @@
     android:padding="16dp"
     android:background="#f5f5f5">
 
+    <!-- Information TextView -->
+    <TextView
+        android:id="@+id/tvInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Current base: EUR"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:padding="8dp"
+        android:gravity="center" />
+
     <!-- Progress Indicator -->
     <ProgressBar
         android:id="@+id/progressBar"
@@ -32,7 +44,7 @@
         android:gravity="center"
         android:text="No data available."
         android:visibility="gone"
-        android:textColor="#FF0000"
-        android:textSize="16sp" />
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
 
 </LinearLayout>

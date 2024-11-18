@@ -6,17 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.currencyconverter.R
+import com.currencyconverter.models.ExchangeRate
 
-class ExchangeRatesAdapter(private val rates: Map<String, Double>) :
+class ExchangeRatesAdapter(private val rates: List<ExchangeRate>) :
     RecyclerView.Adapter<ExchangeRatesAdapter.ExchangeRateViewHolder>() {
     class ExchangeRateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvCurrencyName: TextView = itemView.findViewById(R.id.tvCurrencyName)
-        private val tvExchangeRate: TextView = itemView.findViewById(R.id.tvExchangeRate)
-
-        fun bind(currency: String, rate: Double) {
-            tvCurrencyName.text = currency
-            tvExchangeRate.text = rate.toString()
-        }
+        val tvCurrencyName: TextView = itemView.findViewById(R.id.tvCurrencyName)
+        val tvExchangeRate: TextView = itemView.findViewById(R.id.tvExchangeRate)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExchangeRateViewHolder {
@@ -26,9 +22,9 @@ class ExchangeRatesAdapter(private val rates: Map<String, Double>) :
     }
 
     override fun onBindViewHolder(holder: ExchangeRateViewHolder, position: Int) {
-        val currency = rates.keys.elementAt(position)
-        val rate = rates[currency]
-        holder.bind(currency, rate ?: 0.0)
+        val rate = rates[position]
+        holder.tvCurrencyName.text = rate.currency
+        holder.tvExchangeRate.text = rate.rate.toString()
     }
 
     override fun getItemCount(): Int = rates.size
