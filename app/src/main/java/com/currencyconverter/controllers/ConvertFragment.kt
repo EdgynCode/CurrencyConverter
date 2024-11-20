@@ -14,12 +14,21 @@ import com.currencyconverter.controllers.LiveExchangeRatesFragment.Companion.loc
 import com.currencyconverter.models.SharedViewModel
 
 class ConvertFragment : Fragment(R.layout.fragment_convert) {
+
+    // currency dropdown menu
     private lateinit var spinnerFrom: Spinner
     private lateinit var spinnerTo: Spinner
+
+    // edit text to enter amount
     private lateinit var etAmount: EditText
+
+    // result text view
     private lateinit var tvResult: TextView
+
+    // convert button
     private lateinit var btnConvert: Button
 
+    // for accessing exchangeRates at global level
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

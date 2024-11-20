@@ -25,17 +25,6 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navhost_fragment)
-//
-//        // Check if navHostFragment is null before casting
-//        if (navHostFragment is NavHostFragment) {
-//            val navController = navHostFragment.navController
-//            val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-//            bottomNavigationView.setupWithNavController(navController)
-//        } else {
-//            // Handle the error appropriately, e.g., log an error or show a message
-//            Log.e("MainActivity", "NavHostFragment is null. Please check your layout and navigation setup.")
-//        }
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         loadFragment(ConvertFragment())

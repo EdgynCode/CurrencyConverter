@@ -1,5 +1,6 @@
 package com.currencyconverter.controllers
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -25,8 +26,8 @@ class LiveExchangeRatesFragment : Fragment(R.layout.fragment_exchange) {
     private lateinit var tvErrorMessage: TextView
     private var apiKey = "a091355d2a6669db830a927278590768"
 
+    // for accessing exchangeRates at global level
     private val sharedViewModel: SharedViewModel by activityViewModels()
-
     companion object {
         val localExchangeRates = mutableListOf<ExchangeRate>()
     }
@@ -42,33 +43,40 @@ class LiveExchangeRatesFragment : Fragment(R.layout.fragment_exchange) {
     }
 
     private fun fetchExchangeRates() {
-        progressBar.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
-        tvErrorMessage.visibility = View.GONE
+        if (isOfflineModeEnabled()) {
+            showError("You are in Offline Mode. Navigate to Settings to access Online Mode.")
+        }
+        else {
+            progressBar.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
+            tvErrorMessage.visibility = View.GONE
 
-        val api = Retrofit.Builder()
-            .baseUrl("https://api.exchangeratesapi.io/v1/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ExchangeRatesService::class.java)
+            // fetch data from api using Coroutine
+            val api = Retrofit.Builder()
+                .baseUrl("https://api.exchangeratesapi.io/v1/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ExchangeRatesService::class.java)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                val response = api.getExchangeRates(apiKey)
-                if (response.isSuccessful) {
-                    val rates = response.body()?.rates
-                    if (rates != null) {
-                        val ratesList = cloneRates(rates)
-                        displayRates(localExchangeRates)
-                        updateLocalRates(ratesList)
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    val response = api.getExchangeRates(apiKey)
+                    if (response.isSuccessful) {
+                        // rates as response body
+                        val rates = response.body()?.rates
+                        if (rates != null) {
+                            val ratesList = cloneRates(rates) // clone the response body to a list for local storage
+                            displayRates(localExchangeRates) // display current local exchange rates on screen
+                            updateLocalRates(ratesList) // refresh rate list when refreshing data
+                        } else {
+                            showError("No rates available.")
+                        }
                     } else {
-                        showError("No rates available.")
+                        showError("API Error: ${response.message()}")
                     }
-                } else {
-                    showError("API Error: ${response.message()}")
+                } catch (e: Exception) {
+                    showError("Network Error: ${e.localizedMessage}")
                 }
-            } catch (e: Exception) {
-                showError("Network Error: ${e.localizedMessage}")
             }
         }
     }
@@ -99,5 +107,10 @@ class LiveExchangeRatesFragment : Fragment(R.layout.fragment_exchange) {
         recyclerView.visibility = View.GONE
         tvErrorMessage.visibility = View.VISIBLE
         tvErrorMessage.text = message
+    }
+
+    private fun isOfflineModeEnabled(): Boolean {
+        val sharedPreferences = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("offline_mode", false)
     }
 }
