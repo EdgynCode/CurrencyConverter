@@ -41,9 +41,11 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
         tvResult = view.findViewById(R.id.tvResult)
         btnConvert = view.findViewById(R.id.btnConvert)
 
+        val commonCurrencies = listOf("USD", "EUR", "VND", "GBP", "JPY", "KRW", "CNY", "----------------")
+
         // Observe exchange rates and update spinners
         sharedViewModel.exchangeRates.observe(viewLifecycleOwner) { rates ->
-            val items = rates.map { it.currency }
+            val items = commonCurrencies + rates.map { it.currency }
             val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, items)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerFrom.adapter = adapter
