@@ -81,12 +81,12 @@
         android:id="@+id/tvResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="#808080"
+        android:textSize="16sp"
         android:gravity="center"
         android:padding="12dp"
         android:background="@drawable/bg_edit_text"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/black"/>
 
     <!-- Convert Button -->
     <Button
@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:text="Convert"
         android:padding="12dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="#132f85"
         android:textColor="#FFFFFF"
         android:layout_gravity="center" />
 

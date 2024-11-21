@@ -2,16 +2,16 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/convertFragment">
+    app:startDestination="@id/liveExchangeRatesFragment">
 
-    <fragment
-        android:id="@+id/convertFragment"
-        android:name="com.currencyconverter.controllers.ConvertFragment"
-        android:label="Convert" />
     <fragment
         android:id="@+id/liveExchangeRatesFragment"
         android:name="com.currencyconverter.controllers.LiveExchangeRatesFragment"
         android:label="Live Exchange Rates" />
+    <fragment
+        android:id="@+id/convertFragment"
+        android:name="com.currencyconverter.controllers.ConvertFragment"
+        android:label="Convert" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.currencyconverter.controllers.SettingsFragment"
