@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.currencyconverter.controllers.ConvertFragment
+import com.currencyconverter.controllers.CostManageFragment
 import com.currencyconverter.controllers.LiveExchangeRatesFragment
 import com.currencyconverter.controllers.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.costManageFragment -> loadFragment(CostManageFragment())
                 R.id.convertFragment -> loadFragment(ConvertFragment())
                 R.id.liveExchangeRatesFragment -> loadFragment(LiveExchangeRatesFragment())
                 R.id.settingsFragment -> loadFragment(SettingsFragment())

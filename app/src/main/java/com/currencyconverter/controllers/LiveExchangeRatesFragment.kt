@@ -21,7 +21,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class LiveExchangeRatesFragment : Fragment(R.layout.fragment_exchange) {
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var rvExchangeRates: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var tvErrorMessage: TextView
     private var apiKey = "a091355d2a6669db830a927278590768"
@@ -35,7 +35,7 @@ class LiveExchangeRatesFragment : Fragment(R.layout.fragment_exchange) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = view.findViewById(R.id.recyclerViewExchangeRates)
+        rvExchangeRates = view.findViewById(R.id.rvExchangeRates)
         progressBar = view.findViewById(R.id.progressBar)
         tvErrorMessage = view.findViewById(R.id.tvErrorMessage)
 
@@ -48,7 +48,7 @@ class LiveExchangeRatesFragment : Fragment(R.layout.fragment_exchange) {
         }
         else {
             progressBar.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
+            rvExchangeRates.visibility = View.GONE
             tvErrorMessage.visibility = View.GONE
 
             // fetch data from api using Coroutine
@@ -96,15 +96,15 @@ class LiveExchangeRatesFragment : Fragment(R.layout.fragment_exchange) {
         sharedViewModel.exchangeRates.value = rates
         progressBar.visibility = View.GONE
         tvErrorMessage.visibility = View.GONE
-        recyclerView.visibility = View.VISIBLE
+        rvExchangeRates.visibility = View.VISIBLE
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = ExchangeRatesAdapter(rates)
+        rvExchangeRates.layoutManager = LinearLayoutManager(requireContext())
+        rvExchangeRates.adapter = ExchangeRatesAdapter(rates)
     }
 
     private fun showError(message: String) {
         progressBar.visibility = View.GONE
-        recyclerView.visibility = View.GONE
+        rvExchangeRates.visibility = View.GONE
         tvErrorMessage.visibility = View.VISIBLE
         tvErrorMessage.text = message
     }

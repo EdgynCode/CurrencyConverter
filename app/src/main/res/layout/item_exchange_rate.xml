@@ -15,7 +15,6 @@
         android:layout_weight="1"
         android:text="USD"
         android:textStyle="bold"
-        android:textColor="@color/black"
         android:textSize="18sp" />
 
     <!-- Exchange Rate -->
@@ -24,6 +23,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1.23"
-        android:textSize="18sp"
-        android:textColor="@color/black"/>
+        android:textSize="18sp" />
 </LinearLayout>

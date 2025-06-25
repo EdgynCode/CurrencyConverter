@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import com.currencyconverter.R
+import androidx.core.content.edit
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private lateinit var switchOfflineMode: SwitchCompat
@@ -24,7 +25,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         // Set listener for the switch
         switchOfflineMode.setOnCheckedChangeListener { _, isChecked ->
             // Save the new state to SharedPreferences
-            sharedPreferences.edit().putBoolean("offline_mode", isChecked).apply()
+            sharedPreferences.edit { putBoolean("offline_mode", isChecked) }
 
             // Show a toast message indicating the change
             val message = if (isChecked) "Offline mode enabled" else "Offline mode disabled"
