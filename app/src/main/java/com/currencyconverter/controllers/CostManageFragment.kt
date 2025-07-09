@@ -16,6 +16,7 @@ class CostManageFragment : Fragment(R.layout.fragment_cost_manage) {
     private lateinit var tvBalance: TextView
     private lateinit var rvEntries: RecyclerView
     private lateinit var btnAddEntry: Button
+    private lateinit var btnSetBudget: Button
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,5 +25,6 @@ class CostManageFragment : Fragment(R.layout.fragment_cost_manage) {
         tvBalance = view.findViewById(R.id.tvBalance)
         rvEntries = view.findViewById(R.id.rvEntries)
         btnAddEntry = view.findViewById(R.id.btnAddEntry)
+        btnSetBudget = view.findViewById(R.id.btnSetBudget)
     }
 }
