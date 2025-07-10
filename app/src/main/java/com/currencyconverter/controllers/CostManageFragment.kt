@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -42,6 +43,41 @@ class CostManageFragment : Fragment(R.layout.fragment_cost_manage) {
             }
             builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
 
+            builder.show()
+        }
+
+        btnAddEntry.setOnClickListener {
+            val options = arrayOf("Income", "Outcome")
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Select Entry Type")
+            builder.setItems(options) { dialog, which ->
+                val entryType = if (which == 0) "Income" else "Outcome"
+                val entryDialog = AlertDialog.Builder(requireContext())
+                entryDialog.setTitle("Add $entryType")
+
+                // Create a vertical LinearLayout to hold the EditTexts
+                val layout = LinearLayout(requireContext())
+                layout.orientation = LinearLayout.VERTICAL
+                val amountInput = EditText(requireContext())
+                amountInput.hint = "Amount"
+                amountInput.inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+                val reasonInput = EditText(requireContext())
+                reasonInput.hint = "Reason"
+                layout.addView(amountInput)
+                layout.addView(reasonInput)
+                entryDialog.setView(layout)
+
+                entryDialog.setPositiveButton("Add") { entryDialogInterface, _ ->
+                    val amount = amountInput.text.toString()
+                    val reason = reasonInput.text.toString()
+                    // TODO: Handle saving the entry (amount, reason, entryType)
+                    entryDialogInterface.dismiss()
+                }
+                entryDialog.setNegativeButton("Cancel") { entryDialogInterface, _ -> entryDialogInterface.cancel() }
+                entryDialog.show()
+                dialog.dismiss()
+            }
+            builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
             builder.show()
         }
     }
