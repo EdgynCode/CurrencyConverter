@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.currencyconverter.R
 
@@ -26,5 +28,21 @@ class CostManageFragment : Fragment(R.layout.fragment_cost_manage) {
         rvEntries = view.findViewById(R.id.rvEntries)
         btnAddEntry = view.findViewById(R.id.btnAddEntry)
         btnSetBudget = view.findViewById(R.id.btnSetBudget)
+
+        btnSetBudget.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            val input = EditText(requireContext())
+            builder.setTitle("Set Your Budget")
+            builder.setView(input)
+
+            builder.setPositiveButton("OK") { dialog, _ ->
+                val budget = input.text.toString()
+                tvBalance.text = budget // Update the balance TextView
+                dialog.dismiss()
+            }
+            builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+
+            builder.show()
+        }
     }
 }
