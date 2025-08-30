@@ -13,6 +13,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.currencyconverter.R
+import com.currencyconverter.models.EntryItem
+import com.currencyconverter.views.EntryAdapter
 
 class CostManageFragment : Fragment(R.layout.fragment_cost_manage) {
     private lateinit var tvLabel: TextView
@@ -20,6 +22,8 @@ class CostManageFragment : Fragment(R.layout.fragment_cost_manage) {
     private lateinit var rvEntries: RecyclerView
     private lateinit var btnAddEntry: Button
     private lateinit var btnSetBudget: Button
+    private val entryList = mutableListOf<EntryItem>()
+    private lateinit var entryAdapter: EntryAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,9 +72,15 @@ class CostManageFragment : Fragment(R.layout.fragment_cost_manage) {
                 entryDialog.setView(layout)
 
                 entryDialog.setPositiveButton("Add") { entryDialogInterface, _ ->
-                    val amount = amountInput.text.toString()
+                    val amount = amountInput.text.toString().toDoubleOrNull()
                     val reason = reasonInput.text.toString()
-                    // TODO: Handle saving the entry (amount, reason, entryType)
+
+                    if (amount != null && reason.isNotBlank()) {
+                        val entry = EntryItem(amount, reason, entryType)
+                        entryList.add(entry)
+                        entryAdapter.notifyItemInserted(entryList.size - 1)
+                    }
+
                     entryDialogInterface.dismiss()
                 }
                 entryDialog.setNegativeButton("Cancel") { entryDialogInterface, _ -> entryDialogInterface.cancel() }
